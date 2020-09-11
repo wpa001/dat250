@@ -18,26 +18,20 @@ public class MainBanking {
         factory = Persistence.createEntityManagerFactory(PERSISTENCE_NAME);
         EntityManager em = factory.createEntityManager();
 
-
         em.getTransaction().begin();
+        
         Person person = new Person();
         person.setName("Wojtek");
         em.persist(person);
-        em.getTransaction().commit();
-
-        em.getTransaction().begin();
+        
         Bank bank = new Bank();
         bank.setName("DnB");
         em.persist(bank);
-        em.getTransaction().commit();
-
-        em.getTransaction().begin();
+        
         Pincode pin = new Pincode();
         pin.setPincode(4141);
         em.persist(pin);
-        em.getTransaction().commit();
-
-        em.getTransaction().begin();
+        
         CreditCard card = new CreditCard();
         card.setBalance(1337);
         card.setBank(bank);
@@ -46,9 +40,7 @@ public class MainBanking {
         List<CreditCard> cards = new ArrayList<>();
         cards.add(card);
         person.setCreditCards(cards);
-        em.getTransaction().commit();
-
-        em.getTransaction().begin();
+        
         Address adr = new Address();
         adr.setStreet("Gatensvei");
         adr.setNumber(42);
@@ -56,6 +48,7 @@ public class MainBanking {
         List<Address> adrs = new ArrayList<>();
         adrs.add(adr);
         person.setAddresses(adrs);
+        
         em.getTransaction().commit();
         
         // read the existing entries and write to console
