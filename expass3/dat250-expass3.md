@@ -29,7 +29,8 @@
 ![remove](png/mapReduceOwn.PNG)    
 
 ```
-Reasoining behind this mapReduce is how usefull it is to know how much of one product has been sold. And where the revenue is coming from.
+Reasoining behind this mapReduce is how usefull it is to know how
+much of one product has been sold. And where the revenue is coming from.
 ```
 
 • No further pending issues, all has been done and executed as intended :)
