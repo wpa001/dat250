@@ -74,9 +74,24 @@ public class App {
 				Todo orgTodo = (Todo) q.getSingleResult();
 				Todo todo = gson.fromJson(req.body(), Todo.class);
 
+				if ((orgTodo.getSummary().equals(todo.getSummary())) && (orgTodo.getDescription().equals(todo.getDescription()))) {
+					return "304: Todo not modified";
+				}
+				
+				if (todo.getSummary() != null) {
+					orgTodo.setSummary(todo.getSummary());
+				} else {
+					res.status(400);
+					return "400: Summary required.";
+				}
+				
+				if (todo.getDescription() != null) {
+					orgTodo.setDescription(todo.getDescription());
+				} else {
+					res.status(400);
+					return "400: Description required.";
+				}
 				em.getTransaction().begin();
-				orgTodo.setSummary(todo.getSummary());
-				orgTodo.setDescription(todo.getDescription());
 				em.persist(orgTodo);
 				em.getTransaction().commit();
 				em.close();
@@ -106,17 +121,30 @@ public class App {
 		post("/todo", (req, res) -> {
 			factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 			EntityManager em = factory.createEntityManager();
-			em.getTransaction().begin();
 			Gson gson = new Gson();
 			Todo todo = new Todo();
 			Todo newTodo = gson.fromJson(req.body(), Todo.class);
-			todo.setSummary(newTodo.getSummary());
-			todo.setDescription(newTodo.getDescription());
+			
+			if (newTodo.getSummary() != null) {
+				todo.setSummary(newTodo.getSummary());
+			} else {
+				res.status(400);
+				return "404: Summary required.";
+			}
+			
+			if (newTodo.getDescription() != null) {
+				todo.setDescription(newTodo.getDescription());
+			} else {
+				res.status(400);
+				return "404: Description required.";
+			}
+			em.getTransaction().begin();
 			em.persist(todo);
 	        em.getTransaction().commit();
 	        em.close();
-			return todo.toJson();
+	        return todo.toJson();
 		});
+		
 	}
 
 }
